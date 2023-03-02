@@ -6,6 +6,14 @@ import re
 from typing import List, Tuple, Union
 import logging
 
+PII_FIELDS = (
+    'name',
+    'email',
+    'phone',
+    'ssn',
+    'ip',
+)
+
 
 def filter_datum(
         fields: List[str],
@@ -48,3 +56,13 @@ class RedactingFormatter(logging.Formatter):
         """Filter values in incoming log records using filter_datum."""
         return filter_datum(self.fields, self.REDACTION,
                             super().format(record), self.SEPARATOR)
+
+def get_logger() -> logging.Logger:
+    """get_logger: returns a logging.Logger object."""
+    logger = logging.getLogger('user_data')
+    logger.setLevel(logging.INFO)
+    logger.propagate = False
+    stream_handler = logging.StreamHandler()
+    stream_handler.setFormatter(RedactingFormatter(PII_FIELDS))
+    logger.addHandler(stream_handler)
+    return logger
