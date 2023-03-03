@@ -3,7 +3,7 @@
 
 
 import re
-from typing import List, Tuple, Union
+from typing import List
 import logging
 
 PII_FIELDS = (
