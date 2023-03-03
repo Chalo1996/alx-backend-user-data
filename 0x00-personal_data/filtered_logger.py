@@ -11,7 +11,7 @@ PII_FIELDS = (
     'email',
     'phone',
     'ssn',
-    'ip',
+    'password',
 )
 
 
