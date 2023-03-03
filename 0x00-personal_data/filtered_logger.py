@@ -77,3 +77,27 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
         user=user, passwd=passwd, host=host, db=db)
 
     return conn
+
+
+def main() -> None:
+    """Obtain a database connection using get_db and retrieve all rows in the\
+        users table and display each row under a filtered format.
+
+    Returns:
+        None: None.
+    """
+
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("SELECT * FROM users;")
+    fields = [i[0] for i in cursor.description]
+    logger = get_logger()
+
+    for row in cursor:
+        message = ''
+        for i in range(len(fields)):
+            message += f'{fields[i]}={row[i]};'
+        logger.info(message)
+
+    cursor.close()
+    db.close()
