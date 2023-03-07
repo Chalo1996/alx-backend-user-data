@@ -59,4 +59,27 @@ class BasicAuth(Auth):
         for user in users:
             if user.is_valid_password(user_pwd):
                 return user
-            return None
+        return None
+
+    def current_user(self, request=None) -> TypeVar('User'):
+        """Overloads Auth and retrieves the User instance for a request."""
+        auth_header = self.authorization_header(request)
+        base64_header = self.extract_base64_authorization_header(auth_header)
+        decoded_header = self.decode_base64_authorization_header(
+            base64_header)
+        email, pwd = self.extract_user_credentials(decoded_header)
+        return self.user_object_from_credentials(email, pwd)
+
+    def destroy_session(self, request=None):
+        """Deletes the user session / logout."""
+        if request is None:
+            return False
+        session_name = self.session_cookie(request)
+        if session_name is None:
+            return False
+        user = self.user_id_for_session_id(session_name)
+        if user is None:
+            return False
+        if not self.destroy_session(user.id):
+            return False
+        return True
