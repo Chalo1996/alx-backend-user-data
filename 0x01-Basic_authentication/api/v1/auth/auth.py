@@ -14,8 +14,15 @@ class Auth:
             return True
         if path[-1] != '/':
             path += '/'
+
         if path in excluded_paths:
             return False
+
+        for excluded_path in excluded_paths:
+            if excluded_path[-1] != '*':
+                continue
+            if path.startswith(excluded_path[:-1]):
+                return False
         return True
 
     def current_user(self, request=None) -> TypeVar('User'):
