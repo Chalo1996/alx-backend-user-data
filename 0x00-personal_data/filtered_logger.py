@@ -91,16 +91,19 @@ def main() -> None:
     cursor = db.cursor()
     cursor.execute("SELECT * FROM users;")
     fields = [i[0] for i in cursor.description]
+    print('<<FIELD>>'.join([f'{field};' for field in fields]))
     logger = get_logger()
 
     for row in cursor:
         message = ''
         for i in range(len(fields)):
             message += f'{fields[i]}={row[i]};'
+        print('ROW>>>>: '+str(row[i]))
         logger.info(message)
 
     cursor.close()
     db.close()
+
 
 if __name__ == '__main__':
     main()
