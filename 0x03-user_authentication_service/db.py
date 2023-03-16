@@ -10,7 +10,7 @@ from sqlalchemy.orm.session import Session
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.exc import InvalidRequestError
 
-from typing import Optional
+from typing import Union
 
 from user import Base
 from user import User
@@ -45,11 +45,11 @@ class DB:
         self._session.commit()
         return user
 
-    def find_user_by(self, **kwargs) -> Optional[User]:
+    def find_user_by(self, **kwargs) -> Union[User, None]:
         """Find a user by keyword arguments
         """
         getUser = \
-            self._session.query(User).filter_by(**kwargs).first()
+            self._session.query(User).filter_by(**kwargs).one_or_none()
         if getUser is None:
             raise NoResultFound
         if not getUser:
