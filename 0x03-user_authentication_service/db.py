@@ -45,7 +45,7 @@ class DB:
         self._session.commit()
         return user
 
-    def find_user_by(self, **kwargs) -> Optional[User]:
+    def find_user_by(self, **kwargs: dict) -> Optional[User]:
         """Find a user by keyword arguments
         """
         getUser = \
