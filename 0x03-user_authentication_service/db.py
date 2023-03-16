@@ -53,7 +53,8 @@ class DB:
 
         Raises:
             NoResultFound: If the user is not found
-            InvalidRequestError: If the keyword argument is not a valid attribute
+            InvalidRequestError: If the keyword argument is not a \
+                valid attribute
 
         Returns:
             Union[User, None]: The user or None
