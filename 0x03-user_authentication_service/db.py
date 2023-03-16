@@ -47,14 +47,9 @@ class DB:
     def find_user_by(self, **kwargs):
         """Find a user by keyword arguments
         """
-        try:
-            getUser = self._session.query(User).filter_by(**kwargs).first()
-
-        except InvalidRequestError as e:
-            raise e
-
-        except NoResultFound as e:
-            raise e
+        getUser = self._session.query(User).filter_by(**kwargs).first()
         if getUser is None:
             raise NoResultFound
+        if not getUser:
+            raise InvalidRequestError
         return getUser
