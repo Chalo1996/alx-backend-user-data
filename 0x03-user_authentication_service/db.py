@@ -3,13 +3,14 @@
 """
 
 
-from openai import InvalidRequestError
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.exc import InvalidRequestError
+
+from typing import Optional
 
 from user import Base
 from user import User
@@ -44,10 +45,11 @@ class DB:
         self._session.commit()
         return user
 
-    def find_user_by(self, **kwargs) -> User:
+    def find_user_by(self, **kwargs) -> Optional[User]:
         """Find a user by keyword arguments
         """
-        getUser = self._session.query(User).filter_by(**kwargs).first()
+        getUser = \
+            self._session.query(User).filter_by(**kwargs).one_or_none()
         if getUser is None:
             raise NoResultFound
         if not getUser:
