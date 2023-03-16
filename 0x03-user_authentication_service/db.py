@@ -55,3 +55,23 @@ class DB:
         if not getUser:
             raise InvalidRequestError
         return getUser
+
+    def update_user(self, user_id: int, **kwargs: Dict[str, Any]) -> None:
+        """Update a user by keyword arguments
+
+        Args:
+            user_id (int): The user id
+            kwargs (Dict[str, Any]): The keyword arguments
+
+        Raises:
+            ValueError: If the keyword argument is not a valid attribute
+
+        Returns:
+            None: Nothing
+        """
+        user = self.find_user_by(id=user_id)
+        for key, value in kwargs.items():
+            if not hasattr(user, key):
+                raise ValueError
+            setattr(user, key, value)
+        self._session.commit()
