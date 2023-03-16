@@ -47,6 +47,16 @@ class DB:
 
     def find_user_by(self, **kwargs: Dict[str, Any]) -> Union[User, None]:
         """Find a user by keyword arguments
+
+        Args:
+            kwargs (Dict[str, Any]): The keyword arguments
+
+        Raises:
+            NoResultFound: If the user is not found
+            InvalidRequestError: If the keyword argument is not a valid attribute
+
+        Returns:
+            Union[User, None]: The user or None
         """
         getUser = \
             self._session.query(User).filter_by(**kwargs).first()
