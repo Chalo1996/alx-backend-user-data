@@ -45,11 +45,11 @@ class DB:
         self._session.commit()
         return user
 
-    def find_user_by(self, **kwargs: dict) -> Optional[User]:
+    def find_user_by(self, **kwargs) -> Optional[User]:
         """Find a user by keyword arguments
         """
         getUser = \
-            self._session.query(User).filter_by(**kwargs).one_or_none()
+            self._session.query(User).filter_by(**kwargs).first()
         if getUser is None:
             raise NoResultFound
         if not getUser:
