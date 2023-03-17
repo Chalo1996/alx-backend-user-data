@@ -10,6 +10,7 @@ from sqlalchemy.orm.session import Session
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.exc import InvalidRequestError
 
+
 from typing import Union, Dict, Any
 
 from user import Base
@@ -45,7 +46,7 @@ class DB:
         self._session.commit()
         return user
 
-    def find_user_by(self, **kwargs: Dict[str, Any]) -> Union[User, None]:
+    def find_user_by(self, **kwargs) -> User:
         """Find a user by keyword arguments
 
         Args:
