@@ -7,6 +7,16 @@ import bcrypt
 import uuid
 
 
+def _generate_uuid() -> str:
+    """
+    _generate_uuid: Generate a uuid string id.
+
+    Returns:
+        str: A uuid
+    """
+    return str(uuid.uuid4())
+
+
 def _hash_password(password: str) -> bytes:
     """Hash a password
     Args:
@@ -79,16 +89,6 @@ class Auth:
             if user:
                 session_id = _generate_uuid()
                 self._db.update_user(user.id, session_id=session_id)
+                return session_id
         except NoResultFound:
             return None
-        return session_id
-
-
-def _generate_uuid() -> str:
-    """
-    _generate_uuid: Generate a uuid string id.
-
-    Returns:
-        str: A uuid
-    """
-    return str(uuid.uuid4())
