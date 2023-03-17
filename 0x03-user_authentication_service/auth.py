@@ -64,12 +64,15 @@ class Auth:
         except NoResultFound:
             return False
 
-    @staticmethod
     def _generate_uuid(self) -> str:
         """
-        _generate_uuid: Generate a uuid
+        _generate_uuid: Generate a uuid string id.
 
         Returns:
             str: A uuid
         """
         return str(uuid.uuid4())
+
+
+a = Auth()
+print(a._generate_uuid())
