@@ -68,7 +68,7 @@ class DB:
             raise InvalidRequestError
         return getUser
 
-    def update_user(self, user_id: int, **kwargs: Dict[str, Any]) -> None:
+    def update_user(self, user_id: int, **kwargs) -> None:
         """Update a user by keyword arguments
 
         Args:
