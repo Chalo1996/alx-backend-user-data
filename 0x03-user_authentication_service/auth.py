@@ -64,6 +64,7 @@ class Auth:
         except NoResultFound:
             return False
 
+    @staticmethod
     def _generate_uuid(self) -> str:
         """
         _generate_uuid: Generate a uuid
