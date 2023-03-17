@@ -35,11 +35,11 @@ class Auth:
         Returns:
             None
         """
-        user = self._db.find_user_by(email=email)
-        if user:
+        try:
+            self._db.find_user_by(email=email)
+        except Exception:
             raise ValueError("User {} already exists".format(email))
-        hashpwd = _hash_password(password)
-        new_user = User(email=email, hashed_password=hashpwd)
-        self._db.add_user(email, hashpwd)
-
-        return new_user
+        hashed_password = _hash_password(password)
+        newUser = User(email=email, hashed_password=hashed_password)
+        self._db.add_user(email=email, hashed_password=hashed_password)
+        return newUser
