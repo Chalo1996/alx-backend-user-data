@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Auth module"""
 
-from db import DB
+from db import DB, NoResultFound
 from user import User
 import bcrypt
 
@@ -36,10 +36,11 @@ class Auth:
             None
         """
         try:
-            self._db.find_user_by(email=email)
-        except Exception:
-            raise ValueError("User {} already exists".format(email))
-        hashed_password = _hash_password(password)
-        newUser = User(email=email, hashed_password=hashed_password)
-        self._db.add_user(email=email, hashed_password=hashed_password)
+            user = self._db.find_user_by(email=email)
+            if user:
+                raise ValueError("User {} already exists".format(email))
+        except NoResultFound:
+            hashed_password = _hash_password(password)
+            newUser = User(email=email, hashed_password=hashed_password)
+            self._db.add_user(email=email, hashed_password=hashed_password)
         return newUser
